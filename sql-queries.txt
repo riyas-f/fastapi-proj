@@ -1,0 +1,48 @@
+
+1)
+
+SELECT 
+    r.id AS route_id,
+    r.name,
+    COALESCE(SUM(rp.distance), 0) AS total_distance
+FROM 
+    routes r
+LEFT JOIN 
+    route_points rp ON r.id = rp.route_id
+GROUP BY 
+    r.id, r.name
+ORDER BY 
+    total_distance DESC, r.id ASC
+
+2)
+
+SELECT 
+    r.id AS route_id,
+    MIN(rp1.stop_id) AS source_stop_id,
+    MAX(rp2.stop_id) AS dest_stop_id
+FROM 
+    routes r
+JOIN 
+    route_points rp1 ON r.id = rp1.route_id AND rp1.order = 1
+JOIN 
+    route_points rp2 ON r.id = rp2.route_id
+GROUP BY 
+    r.id
+ORDER BY 
+    r.id;
+
+3)
+
+SELECT 
+    s.id AS station_id,
+    s.name AS station_name,
+    t.slot,
+    t.time
+FROM 
+    station s
+JOIN 
+    times t ON s.id = t.station_id
+WHERE 
+    (s.id = 1 AND t.slot = 1)
+ORDER BY 
+    s.id, t.slot, t.time
