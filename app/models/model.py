@@ -1,5 +1,9 @@
+
+# model.py
 from pydantic import BaseModel, Field, EmailStr
 from datetime import datetime
+from typing import List, Optional
+
 
 def generate_date():
 
@@ -8,12 +12,6 @@ def generate_date():
 
     return str(dt_string)
 
-class PostSchema(BaseModel):
-
-    UserId: int
-    PostTitle: str
-    PostCreateDate: str = Field(default_factory=generate_date)
-    PostContent: str
 
 
 class UserSchema(BaseModel):
@@ -27,9 +25,24 @@ class UserLoginSchema(BaseModel):
     LoginEmail: EmailStr
     LoginPassword: str
 
-class UpdatePostSchema(BaseModel):
 
-    UserId: int
-    PostId: int
-    PostTitle: str
-    PostContent: str
+class TeacherSchema(BaseModel):
+    TeacherId: int
+    FullName: str
+    Email: EmailStr
+
+class StudentSchema(BaseModel):
+    StudentId: int
+    FullName: str
+    Email: EmailStr
+
+class AssignStudentSchema(BaseModel):
+    TeacherId: int
+    StudentId: int
+
+
+class DistanceRequestSchema(BaseModel):
+    lat1: float
+    lon1: float
+    lat2: float
+    lon2: float
